@@ -24,7 +24,7 @@ export default class TodoListComponent {
 
   render() {
     return `
-            <ul class="todo-list"></ul> 
-        `;
+      <ul class="todo-list"></ul>
+    `;
   }
 }

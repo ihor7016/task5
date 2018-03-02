@@ -39,11 +39,11 @@ export default class TodoAppComponent {
 
   render() {
     return `
-            <div class="todo-app">
-                <h2>Todo:</h2>  
-                <div class="todo-app__form-point"></div> 
-                <div class="todo-app__list-point"></div> 
-            </div> 
-        `;
+      <div class="todo-app">
+        <h2>Todo:</h2>
+        <div class="todo-app__form-point"></div>
+        <div class="todo-app__list-point"></div>
+      </div>
+    `;
   }
 }

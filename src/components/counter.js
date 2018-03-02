@@ -40,11 +40,11 @@ export default class CounterComponent {
 
   render() {
     return `
-            <div class="js-counter">
-                <button class="js-counter__dec">-</button>
-                <span class="js-counter__display">0</span>
-                <button class="js-counter__inc">+</button>
-            </div> 
-        `;
+      <div class="js-counter">
+        <button class="js-counter__dec">-</button>
+        <span class="js-counter__display">0</span>
+        <button class="js-counter__inc">+</button>
+      </div>
+    `;
   }
 }

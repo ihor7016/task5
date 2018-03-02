@@ -10,7 +10,7 @@ export default class HelloComponent {
 
   render() {
     return `
-            <div>hi, ${this.props.name}!</div> 
-        `;
+      <div>hi, ${this.props.name}!</div>
+    `;
   }
 }

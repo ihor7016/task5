@@ -31,12 +31,12 @@ export default class TodoFormComponent {
 
   render() {
     return `
-            <div class="todo-form">
-                <input class="todo-form__field" type="text">
-                <button class="todo-form__btn">
-                    Add #<span class="todo-form__counter">1</span>
-                </button>
-            </div> 
-        `;
+      <div class="todo-form">
+        <input class="todo-form__field" type="text">
+        <button class="todo-form__btn">
+          Add #<span class="todo-form__counter">1</span>
+        </button>
+      </div>
+    `;
   }
 }

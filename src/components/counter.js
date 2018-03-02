@@ -4,9 +4,9 @@ export default class CounterComponent {
   }
 
   querySelectors() {
-    this.incButton = this.mountPoint.querySelector(".js-counter__inc");
-    this.decButton = this.mountPoint.querySelector(".js-counter__dec");
-    this.display = this.mountPoint.querySelector(".js-counter__display");
+    this.incButton = this.mountPoint.querySelector(".counter__inc");
+    this.decButton = this.mountPoint.querySelector(".counter__dec");
+    this.display = this.mountPoint.querySelector(".counter__display");
   }
 
   addEventListeners() {
@@ -40,10 +40,10 @@ export default class CounterComponent {
 
   render() {
     return `
-      <div class="js-counter">
-        <button class="js-counter__dec">-</button>
-        <span class="js-counter__display">0</span>
-        <button class="js-counter__inc">+</button>
+      <div class="counter">
+        <button class="counter__dec">-</button>
+        <span class="counter__display">0</span>
+        <button class="counter__inc">+</button>
       </div>
     `;
   }

@@ -1,5 +1,6 @@
 import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
+import TodoItemComponent from "./todo-item";
 
 export default class TodoAppComponent {
   constructor(mountPoint, props = {}) {
@@ -21,7 +22,10 @@ export default class TodoAppComponent {
       onTodoAdd: this.handleTodoAdd.bind(this)
     });
     this.todoFormComponent.mount();
-    this.todoListComponent = new TodoListComponent(this.todoListMountPoint);
+    this.todoListComponent = new TodoListComponent(this.todoListMountPoint, {
+      onTodoDel: this.handleTodoDel.bind(this),
+      onTodoDone: this.handleTodoDone.bind(this)
+    });
     this.todoListComponent.mount();
   }
 
@@ -29,6 +33,21 @@ export default class TodoAppComponent {
     this.todoListComponent.addTask(task);
     const numItems = this.todoListComponent.getNumTasks();
     this.todoFormComponent.setCounter(numItems + 1);
+    this.saveLocal();
+  }
+
+  handleTodoDel() {
+    const numItems = this.todoListComponent.getNumTasks();
+    this.todoFormComponent.setCounter(numItems + 1);
+    this.saveLocal();
+  }
+
+  handleTodoDone() {
+    this.saveLocal();
+  }
+
+  saveLocal() {
+    //    localStorage.setItem("tasks", );
   }
 
   mount() {

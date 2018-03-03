@@ -1,6 +1,9 @@
+import TodoItemComponent from "./todo-item";
+
 export default class TodoListComponent {
-  constructor(mountPoint) {
+  constructor(mountPoint, props = {}) {
     this.mountPoint = mountPoint;
+    this.props = props;
   }
 
   querySelectors() {
@@ -13,9 +16,24 @@ export default class TodoListComponent {
   }
 
   addTask(task) {
-    this.list.innerHTML += `
-            <li class="todo-list__item">${task}</li>
-        `;
+    let item = new TodoItemComponent(this.list, {
+      onTodoDel: this.delTask.bind(this),
+      onTodoDone: this.doneTask.bind(this)
+    });
+    item.mount(task);
+  }
+
+  delTask(item) {
+    this.list.removeChild(item);
+    this.props.onTodoDel();
+  }
+
+  doneTask() {
+    this.props.onTodoDone();
+  }
+
+  getJSONTasks() {
+    //    return JSON.stringify();
   }
 
   getNumTasks() {

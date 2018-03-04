@@ -1,11 +1,12 @@
 import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
+import Controller from "./controller/controller.js";
 import Task from "./model/Task.js";
 
 export default class TodoAppComponent {
-  constructor(mountPoint, data) {
+  constructor(mountPoint, controller) {
     this.mountPoint = mountPoint;
-    this.data = data;
+    this.controller = controller;
   }
 
   querySelectors() {
@@ -28,26 +29,35 @@ export default class TodoAppComponent {
         onMark: this.handleMark.bind(this),
         onDelete: this.handleDelete.bind(this)
       },
-      this.data.all
+      this.controller.getAll()
     );
     this.todoListComponent.mount();
   }
 
   handleTodoAdd(name) {
-    let randomId = this.randomId();
-    this.data.add(new Task(false, name, randomId));
+    this.controller.add(name);
+  }
 
-    this.todoListComponent.addTask(name, randomId, false);
+  handleMark(id, checked) {
+    this.controller.marks(id, checked);
+  }
+
+  handleDelete(id) {
+    this.controller.delete(id);
+  }
+
+  onDataAdded(task) {
+    this.todoListComponent.addTask(task);
     const numItems = this.todoListComponent.getNumTasks();
     this.todoFormComponent.setCounter(numItems + 1);
   }
 
-  handleMark(id, checked) {
-    this.data.marks(id, checked);
+  onDataDeleted(taskId) {
+    this.todoListComponent.deleteTask(taskId);
   }
 
-  handleDelete(id) {
-    this.data.delete(id);
+  onDataMarked(taskId, checked) {
+    this.todoListComponent.markTask(taskId, checked);
   }
 
   mount() {
@@ -64,9 +74,5 @@ export default class TodoAppComponent {
         <div class="todo-app__list-point"></div>
       </div>
     `;
-  }
-
-  randomId() {
-    return Math.floor(Math.random() * 10000000);
   }
 }

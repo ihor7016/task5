@@ -4,16 +4,22 @@ const KEY = "key";
 export default class Data {
   constructor(storage) {
     this._storage = storage;
+    this._listener = {};
+  }
+
+  set listener(listener) {
+    this._listener = listener;
   }
 
   add(task) {
     this._storage.push(task);
     console.log("add: " + task.id);
     localStorage.setItem(KEY, JSON.stringify(this._storage));
+    this._listener.onDataAdded(task);
   }
 
   get all() {
-    return JSON.parse(localStorage.getItem(KEY));
+    return this._storage;
   }
 
   delete(taskId) {
@@ -29,6 +35,7 @@ export default class Data {
     this._storage.splice(itemIndex, 1);
     let data = JSON.stringify(this._storage);
     localStorage.setItem(KEY, data);
+    this._listener.onDataDeleted(taskId);
   }
 
   deleteAll() {
@@ -49,6 +56,7 @@ export default class Data {
     console.log("mark: " + taskId);
     let data = JSON.stringify(this._storage);
     localStorage.setItem(KEY, data);
+    this._listener.onDataMarked(taskId, checked);
   }
 
   put(array) {

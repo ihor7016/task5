@@ -13,6 +13,7 @@ export default class TodoListComponent {
   mount() {
     this.mountPoint.innerHTML = this.render();
     this.querySelectors();
+    this.list.innerHTML = this.props.itemsFromStorage;
   }
 
   addTask(task) {
@@ -32,8 +33,15 @@ export default class TodoListComponent {
     this.props.onTodoDone();
   }
 
-  getJSONTasks() {
-    //    return JSON.stringify();
+  getTasks() {
+    let taskList = [];
+    const elems = this.list.children;
+    for (let i = 0; i < elems.length; i++) {
+      taskList.push({
+        [elems[i].getTask()]: elems[i].getDone()
+      });
+    }
+    return taskList;
   }
 
   getNumTasks() {

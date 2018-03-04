@@ -5,6 +5,14 @@ export default class TodoItemComponent {
     this.item = document.createElement("li");
   }
 
+  getTask() {
+    return this.itemText.innerText();
+  }
+
+  getDone() {
+    return this.checkBoxDone.checked;
+  }
+
   querySelectors() {
     this.checkBoxDone = this.item.querySelector(".todo-list__done");
     this.itemText = this.item.querySelector(".todo-list__text");

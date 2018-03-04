@@ -1,6 +1,5 @@
 import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
-import TodoItemComponent from "./todo-item";
 
 export default class TodoAppComponent {
   constructor(mountPoint, props = {}) {
@@ -32,14 +31,12 @@ export default class TodoAppComponent {
 
   handleTodoAdd(task) {
     this.todoListComponent.addTask(task);
-    const numItems = this.todoListComponent.getNumTasks();
-    this.todoFormComponent.setCounter(numItems + 1);
+    this.refreshCounter();
     this.saveLocalTasks();
   }
 
   handleTodoDel() {
-    const numItems = this.todoListComponent.getNumTasks();
-    this.todoFormComponent.setCounter(numItems + 1);
+    this.refreshCounter();
     this.saveLocalTasks();
   }
 
@@ -47,14 +44,19 @@ export default class TodoAppComponent {
     this.saveLocalTasks();
   }
 
+  refreshCounter() {
+    const numItems = this.todoListComponent.getNumTasks();
+    this.todoFormComponent.setCounter(numItems + 1);
+  }
+
   saveLocalTasks() {
-    this.todoListComponent.getTasks().forEach((item, i) => {
-      localStorage.setItem(`task_${i}`, JSON.stringify(item));
-    });
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(this.todoListComponent.getDataTasks())
+    );
   }
 
   getLocalTasks() {
-    console.log(localStorage.getItem("tasks"));
     return JSON.parse(localStorage.getItem("tasks"));
   }
 
@@ -62,6 +64,7 @@ export default class TodoAppComponent {
     this.mountPoint.innerHTML = this.render();
     this.querySelectors();
     this.mountChildren();
+    this.refreshCounter();
   }
 
   render() {

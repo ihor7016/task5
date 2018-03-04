@@ -15,8 +15,10 @@ export default class TodoFormComponent {
   }
 
   handeBtnClick() {
-    this.props.onTodoAdd(this.field.value);
-    this.field.value = "";
+    if (this.field.value) {
+      this.props.onTodoAdd(this.field.value);
+      this.field.value = "";
+    }
   }
 
   mount() {

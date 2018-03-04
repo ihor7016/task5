@@ -14,9 +14,11 @@ export default class TodoListComponent {
   mount() {
     this.mountPoint.innerHTML = this.render();
     this.querySelectors();
-    for (let i = 0; i < this.tasks.length; i++) {
-      let item = this.tasks[i];
-      this.addTask(item._name, item._id, item._isCompleted);
+    if (this.tasks !== null) {
+      for (let i = 0; i < this.tasks.length; i++) {
+        let item = this.tasks[i];
+        this.addTask(item._name, item._id, item._isCompleted);
+      }
     }
     this.list.addEventListener("click", e => {
       let id = e.target.id;
@@ -24,8 +26,13 @@ export default class TodoListComponent {
       let action = e.target.getAttribute("action");
       switch (action) {
         case "mark":
-          document.getElementById(id).style.backgroundColor = "red";
-          this.clickHandler.onMark(id);
+          let checked = e.target.checked === true;
+          if (checked) {
+            document.getElementById(id).style.textDecoration = "line-through";
+          } else {
+            document.getElementById(id).style.textDecoration = "none";
+          }
+          this.clickHandler.onMark(id, checked);
           break;
         case "delete":
           document.getElementById(id).style.display = "none";

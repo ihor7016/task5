@@ -1,5 +1,5 @@
-import TodoAppComponent from "./components/todo-app"; // от куда придут данные
-import Data from "./components/model/Data.js"; // от куда придут данные
+import TodoAppComponent from "./components/todo-app";
+import Data from "./components/model/Data.js";
 
 const root = document.querySelector("#root");
 
@@ -8,6 +8,5 @@ let localStorageElements = data.all;
 if (localStorageElements !== null) {
   data.put(localStorageElements);
 }
-const cmp = new TodoAppComponent(root, data); // создали новый объект
-
-cmp.mount(); //запустили
+const cmp = new TodoAppComponent(root, data);
+cmp.mount();

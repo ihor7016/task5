@@ -35,7 +35,7 @@ export default class Data {
     return (this._storage = []);
   }
 
-  marks(taskId) {
+  marks(taskId, checked) {
     var index = 0;
 
     var itemIndex = 0;
@@ -45,7 +45,7 @@ export default class Data {
       }
       index++;
     });
-    this._storage[itemIndex].isCompleted = true;
+    this._storage[itemIndex].isCompleted = checked;
     console.log("mark: " + taskId);
     let data = JSON.stringify(this._storage);
     localStorage.setItem(KEY, data);

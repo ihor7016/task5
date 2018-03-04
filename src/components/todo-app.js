@@ -42,8 +42,8 @@ export default class TodoAppComponent {
     this.todoFormComponent.setCounter(numItems + 1);
   }
 
-  handleMark(id) {
-    this.data.marks(id);
+  handleMark(id, checked) {
+    this.data.marks(id, checked);
   }
 
   handleDelete(id) {

@@ -1,10 +1,12 @@
 import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
+import Controller from "./controller/controller.js";
+import Task from "./model/Task.js";
 
 export default class TodoAppComponent {
-  constructor(mountPoint, props = {}) {
+  constructor(mountPoint, controller) {
     this.mountPoint = mountPoint;
-    this.props = props;
+    this.controller = controller;
   }
 
   querySelectors() {
@@ -21,14 +23,41 @@ export default class TodoAppComponent {
       onTodoAdd: this.handleTodoAdd.bind(this)
     });
     this.todoFormComponent.mount();
-    this.todoListComponent = new TodoListComponent(this.todoListMountPoint);
+    this.todoListComponent = new TodoListComponent(
+      this.todoListMountPoint,
+      {
+        onMark: this.handleMark.bind(this),
+        onDelete: this.handleDelete.bind(this)
+      },
+      this.controller.getAll()
+    );
     this.todoListComponent.mount();
   }
 
-  handleTodoAdd(task) {
+  handleTodoAdd(name) {
+    this.controller.add(name);
+  }
+
+  handleMark(id, checked) {
+    this.controller.marks(id, checked);
+  }
+
+  handleDelete(id) {
+    this.controller.delete(id);
+  }
+
+  onDataAdded(task) {
     this.todoListComponent.addTask(task);
     const numItems = this.todoListComponent.getNumTasks();
     this.todoFormComponent.setCounter(numItems + 1);
+  }
+
+  onDataDeleted(taskId) {
+    this.todoListComponent.deleteTask(taskId);
+  }
+
+  onDataMarked(taskId, checked) {
+    this.todoListComponent.markTask(taskId, checked);
   }
 
   mount() {

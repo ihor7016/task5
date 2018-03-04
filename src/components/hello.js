@@ -5,7 +5,7 @@ export default class HelloComponent {
   }
 
   mount() {
-    this.mountPoint.innerHTML = this.render(); //поместили html-  <div>hi, ${this.props.name}!</div> в свойство mountPoint
+    this.mountPoint.innerHTML = this.render();
   }
 
   render() {

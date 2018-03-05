@@ -1,10 +1,12 @@
 import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
+import { TaskListService } from "../services/taskListService";
 
 export default class TodoAppComponent {
   constructor(mountPoint, props = {}) {
     this.mountPoint = mountPoint;
     this.props = props;
+    this.taskListService = new TaskListService();
   }
 
   querySelectors() {
@@ -21,20 +23,47 @@ export default class TodoAppComponent {
       onTodoAdd: this.handleTodoAdd.bind(this)
     });
     this.todoFormComponent.mount();
-    this.todoListComponent = new TodoListComponent(this.todoListMountPoint);
+    this.todoListComponent = new TodoListComponent(this.todoListMountPoint, {
+      onTodoDel: this.handleTodoDel.bind(this),
+      onTodoDone: this.handleTodoDone.bind(this),
+      itemsFromStorage: this.getLocalTasks()
+    });
     this.todoListComponent.mount();
   }
 
   handleTodoAdd(task) {
     this.todoListComponent.addTask(task);
+    this.refreshCounter();
+    this.saveLocalTasks();
+  }
+
+  handleTodoDel() {
+    this.refreshCounter();
+    this.saveLocalTasks();
+  }
+
+  handleTodoDone() {
+    this.saveLocalTasks();
+  }
+
+  refreshCounter() {
     const numItems = this.todoListComponent.getNumTasks();
     this.todoFormComponent.setCounter(numItems + 1);
+  }
+
+  saveLocalTasks() {
+    this.taskListService.set(this.todoListComponent.getDataTasks());
+  }
+
+  getLocalTasks() {
+    return this.taskListService.get();
   }
 
   mount() {
     this.mountPoint.innerHTML = this.render();
     this.querySelectors();
     this.mountChildren();
+    this.refreshCounter();
   }
 
   render() {

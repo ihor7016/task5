@@ -1,10 +1,12 @@
 import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
+import { TaskListService } from "../services/taskListService";
 
 export default class TodoAppComponent {
   constructor(mountPoint, props = {}) {
     this.mountPoint = mountPoint;
     this.props = props;
+    this.taskListService = new TaskListService();
   }
 
   querySelectors() {
@@ -50,14 +52,11 @@ export default class TodoAppComponent {
   }
 
   saveLocalTasks() {
-    localStorage.setItem(
-      "tasks",
-      JSON.stringify(this.todoListComponent.getDataTasks())
-    );
+    this.taskListService.set(this.todoListComponent.getDataTasks());
   }
 
   getLocalTasks() {
-    return JSON.parse(localStorage.getItem("tasks"));
+    return this.taskListService.get();
   }
 
   mount() {

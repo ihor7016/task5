@@ -24,11 +24,13 @@ export default class TodoListComponent {
   }
 
   addStoredTasks() {
-    this.props.itemsFromStorage.forEach(item => {
-      for (let task in item) {
-        this.addTask(task, item[task]);
-      }
-    });
+    if (this.props.itemsFromStorage) {
+      this.props.itemsFromStorage.forEach(item => {
+        for (let task in item) {
+          this.addTask(task, item[task]);
+        }
+      });
+    }
   }
 
   getDataTasks() {

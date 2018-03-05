@@ -2,9 +2,9 @@ import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
 
 export default class TodoAppComponent {
-  constructor(mountPoint, props = {}) {
+  constructor(mountPoint, taskService) {
     this.mountPoint = mountPoint;
-    this.props = props;
+    this.taskService = taskService;
   }
 
   querySelectors() {
@@ -21,14 +21,32 @@ export default class TodoAppComponent {
       onTodoAdd: this.handleTodoAdd.bind(this)
     });
     this.todoFormComponent.mount();
-    this.todoListComponent = new TodoListComponent(this.todoListMountPoint);
+    this.todoListComponent = new TodoListComponent(
+      this.todoListMountPoint,
+      {
+        onMark: this.handleMark.bind(this),
+        onDelete: this.handleDelete.bind(this)
+      },
+      this.taskService.getTasks()
+    );
     this.todoListComponent.mount();
+  }
+
+  handleMark(tasks) {
+    console.log(tasks);
+    this.taskService.setTasks(tasks);
+  }
+
+  handleDelete(tasks) {
+    console.log(tasks);
+    this.taskService.setTasks(tasks);
   }
 
   handleTodoAdd(task) {
     this.todoListComponent.addTask(task);
     const numItems = this.todoListComponent.getNumTasks();
     this.todoFormComponent.setCounter(numItems + 1);
+    this.taskService.setTasks(this.todoListComponent.getAllTasks());
   }
 
   mount() {

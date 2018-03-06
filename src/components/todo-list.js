@@ -12,14 +12,17 @@ export default class TodoListComponent {
     this.mountPoint.innerHTML = this.render();
     this.querySelectors();
     this.doneTask();
+    this.removeTask();
   }
 
   addTask(task) {
     this.list.innerHTML += `
     <tr><td><input class ="checkbox" type="checkbox"></td>
     <td>${task}</td>
-    <td><button value="&#215" style="width:5px;height:15px;"></button></td></tr>
+    <td><button class='button' value="&#215" style="width:5px;height:15px;"></button></td></tr>
         `;
+    this.doneTask();
+    this.removeTask();
   }
 
   doneTask() {
@@ -30,6 +33,15 @@ export default class TodoListComponent {
         if (this.checked) {
           this.closest("tr").style.textDecoration = "line-through";
         }
+      });
+    }
+  }
+  removeTask(){
+    let buttonElements = document.getElementsByClassName("button");
+    for (let j = 0; j < buttonElements.length; j++) {
+      buttonElements[j].addEventListener("click", function() {
+          this.closest("tr").remove(buttonElements[j]);
+
       });
     }
   }

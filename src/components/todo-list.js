@@ -1,6 +1,7 @@
 export default class TodoListComponent {
-  constructor(mountPoint) {
+  constructor(mountPoint, props = {}) {
     this.mountPoint = mountPoint;
+    this.props = props;
   }
 
   querySelectors() {
@@ -17,14 +18,14 @@ export default class TodoListComponent {
     this.list.innerHTML += `
     <tr><td><input class ="checkbox" type="checkbox"></td>
     <td>${task}</td>
-    <td><button onclick="removeTask(this)" value="&#215" style="width:5px;height:15px;"></button></td></tr>
+    <td><button value="&#215" style="width:5px;height:15px;"></button></td></tr>
         `;
   }
 
   doneTask() {
-    var checkboxElements = document.getElementsByClassName("checkbox");
+    let checkboxElements = document.getElementsByClassName("checkbox");
 
-    for (var i = 0; i < checkboxElements.length; i++) {
+    for (let i = 0; i < checkboxElements.length; i++) {
       checkboxElements[i].addEventListener("change", function() {
         if (this.checked) {
           this.closest("tr").style.textDecoration = "line-through";

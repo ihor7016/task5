@@ -1,12 +1,8 @@
+import View from "./View";
 import TodoFormComponent from "./todo-form";
 import TodoListComponent from "./todo-list";
 
-export default class TodoAppComponent {
-  constructor(mountPoint, props = {}) {
-    this.mountPoint = mountPoint;
-    this.props = props;
-  }
-
+export default class TodoAppComponent extends View {
   querySelectors() {
     this.todoFormMountPoint = this.mountPoint.querySelector(
       ".todo-app__form-point"
@@ -17,24 +13,31 @@ export default class TodoAppComponent {
   }
 
   mountChildren() {
+    const { items } = this.props;
+
     this.todoFormComponent = new TodoFormComponent(this.todoFormMountPoint, {
-      onTodoAdd: this.handleTodoAdd.bind(this)
+      onTodoAdd: this.onTodoAdd.bind(this),
+      count: items.length
     });
     this.todoFormComponent.mount();
-    this.todoListComponent = new TodoListComponent(this.todoListMountPoint);
+
+    this.todoListComponent = new TodoListComponent(this.todoListMountPoint, {
+      items,
+      onItemDelete: this.onTodoDelete.bind(this)
+    });
     this.todoListComponent.mount();
   }
 
-  handleTodoAdd(task) {
-    this.todoListComponent.addTask(task);
-    const numItems = this.todoListComponent.getNumTasks();
-    this.todoFormComponent.setCounter(numItems + 1);
+  onTodoAdd(text) {
+    this.updateProps(props => {
+      props.items.push({ text, checked: false });
+    });
   }
 
-  mount() {
-    this.mountPoint.innerHTML = this.render();
-    this.querySelectors();
-    this.mountChildren();
+  onTodoDelete(index) {
+    this.updateProps(props => {
+      props.items.splice(index, 1);
+    });
   }
 
   render() {

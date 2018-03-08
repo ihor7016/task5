@@ -1,32 +1,17 @@
-export default class TodoFormComponent {
-  constructor(mountPoint, props = {}) {
-    this.mountPoint = mountPoint;
-    this.props = props;
-  }
+import View from "./View";
 
+export default class TodoFormComponent extends View {
   querySelectors() {
     this.field = this.mountPoint.querySelector(".todo-form__field");
-    this.btn = this.mountPoint.querySelector(".todo-form__btn");
-    this.counter = this.mountPoint.querySelector(".todo-form__counter");
   }
 
-  addEventListeners() {
-    this.btn.addEventListener("click", this.handeBtnClick.bind(this));
+  getEvents() {
+    return [["click", ".todo-form__btn", "onBtnClick"]];
   }
 
-  handeBtnClick() {
+  onBtnClick() {
     this.props.onTodoAdd(this.field.value);
     this.field.value = "";
-  }
-
-  mount() {
-    this.mountPoint.innerHTML = this.render();
-    this.querySelectors();
-    this.addEventListeners();
-  }
-
-  setCounter(val) {
-    this.counter.innerHTML = val;
   }
 
   render() {
@@ -34,7 +19,7 @@ export default class TodoFormComponent {
       <div class="todo-form">
         <input class="todo-form__field" type="text">
         <button class="todo-form__btn">
-          Add #<span class="todo-form__counter">1</span>
+          Add #<span class="todo-form__counter">${this.props.count + 1}</span>
         </button>
       </div>
     `;
